@@ -20,12 +20,13 @@ const sendConfirmEmail = async (dataSend) => {
         subject: "[ClinicBookder] Xác nhận đặt lịch khám bệnh", // Subject line
         text: "Hello ✔", // plain text body
         html: `
-        <h2>Cảm ơn bạn đã đặt lịch khám tại BookingCare!</h2>
+        <h2>Cảm ơn bạn đã đặt lịch khám tại ClinicBooker!</h2>
         <p>Xin chào <b>${dataSend.patientName}</b>,</p>
         <p>Yêu cầu đặt khám của bạn đã được tiếp nhận.</p>
         <br/>
         <p>THÔNG TIN CHI TIẾT:</p>
         <p>Người đặt: <b>${dataSend.patientName}</b></p>
+        <p>Lý do khám: <b>Nhức đầu</b></p>
         <p>Bác sĩ: <b>${dataSend.doctorName}</b></p>
         <p>Thời gian: <b>${dataSend.time}</b></p>
         <p>Vui lòng kiểm tra lại thông tin và click vào link sau để xác nhận nhé:
@@ -56,21 +57,23 @@ const sendAttachment = async (dataSend) => {
     });
 
     let info = await transporter.sendMail({
-        from: '"BookingCare" <hieu.nhan.hcmus@gmail.com>',
+        from: '"ClinicBooker" <hieu.nhan.hcmus@gmail.com>',
         to: dataSend.email,
         subject: "Hoàn tất quá trình đặt lịch khám bệnh",
         text: "Hello ✔",
         html: `
-        <h2>Cảm ơn bạn đã đặt lịch khám tại BookingCare!</h2>
+        <h2>Cảm ơn bạn đã đặt lịch khám tại ClinicBooker!</h2>
         <p>Xin chào ${dataSend.patientName},</p>
         <p>Quá trình khám bệnh của bạn đã hoàn tất</p>
-        <p>Thông tin chi tiết:</p>
-        <p>Người đặt: abc</p>
-        <p>Bác sĩ: abc</p>
-        <p>Thời gian: abc</p>
+        <br/>
+        <p>THÔNG TIN CHI TIẾT:</p>
+        <p>Người đặt: <b>${dataSend.patientName}</b></p>
+        <p>Lý do khám: <b>Nhức đầu</b></p>
+        <p>Bác sĩ: <b>${dataSend.doctorName}</b></p>
+        <p>Thời gian: <b>${dataSend.time}</b></p>
         <p>Chúc bạn thật nhiều sức khoẻ!</p>
         <br/>
-        <p>Thông tin đơn thuốc: </p>
+        <p>File đơn thuốc đính kèm: </p>
         `,
         attachments: [
             {
