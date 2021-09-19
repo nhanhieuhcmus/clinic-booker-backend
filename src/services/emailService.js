@@ -2,6 +2,7 @@ require("dotenv").config();
 import nodemailer from "nodemailer";
 
 const sendConfirmEmail = async (dataSend) => {
+    console.log("check dataSend sendConfirmEmail>>>", dataSend);
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
@@ -14,19 +15,21 @@ const sendConfirmEmail = async (dataSend) => {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: '"BookingCare" <hieu.nhan.hcmus@gmail.com>', // sender address
+        from: '"ClinicBooker" <hieu.nhan.hcmus@gmail.com>', // sender address
         to: dataSend.receiverEmail, // list of receivers
-        subject: "Thông tin đặt lịch khám bệnh", // Subject line
+        subject: "[ClinicBookder] Xác nhận đặt lịch khám bệnh", // Subject line
         text: "Hello ✔", // plain text body
         html: `
         <h2>Cảm ơn bạn đã đặt lịch khám tại BookingCare!</h2>
-        <p>Xin chào ${dataSend.patientName},</p>
-        <p>Yêu cầu của bạn đã được tiếp nhận.</p>
-        <p>Thông tin chi tiết:</p>
-        <p>Người đặt: ${dataSend.patientName}</p>
-        <p>Bác sĩ: ${dataSend.doctorName}</p>
-        <p>Thời gian: ${dataSend.time}</p>
-        <p>Vui lòng kiểm tra lại thông tin và click vào link sau để xác nhận: <a href=${dataSend.verifyLink} target="_blank">${dataSend.verifyLink}</a></p>
+        <p>Xin chào <b>${dataSend.patientName}</b>,</p>
+        <p>Yêu cầu đặt khám của bạn đã được tiếp nhận.</p>
+        <br/>
+        <p>THÔNG TIN CHI TIẾT:</p>
+        <p>Người đặt: <b>${dataSend.patientName}</b></p>
+        <p>Bác sĩ: <b>${dataSend.doctorName}</b></p>
+        <p>Thời gian: <b>${dataSend.time}</b></p>
+        <p>Vui lòng kiểm tra lại thông tin và click vào link sau để xác nhận nhé:
+        <div><a href=${dataSend.verifyLink} target="_blank">${dataSend.verifyLink}</a></p></div>
         `, // html body
     });
 };
@@ -40,7 +43,8 @@ async function main() {
     // create reusable transporter object using the default SMTP transport
 }
 
-const sendAttachment= async(dataSend) => {
+const sendAttachment = async (dataSend) => {
+    console.log("check dataSend sendConfirmEmail>>>", dataSend);
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
@@ -54,28 +58,31 @@ const sendAttachment= async(dataSend) => {
     let info = await transporter.sendMail({
         from: '"BookingCare" <hieu.nhan.hcmus@gmail.com>',
         to: dataSend.email,
-        subject: "Thông tin đặt lịch khám bệnh",
+        subject: "Hoàn tất quá trình đặt lịch khám bệnh",
         text: "Hello ✔",
         html: `
         <h2>Cảm ơn bạn đã đặt lịch khám tại BookingCare!</h2>
         <p>Xin chào ${dataSend.patientName},</p>
-        <p>Yêu cầu của bạn đã được tiếp nhận.</p>
+        <p>Quá trình khám bệnh của bạn đã hoàn tất</p>
         <p>Thông tin chi tiết:</p>
         <p>Người đặt: abc</p>
         <p>Bác sĩ: abc</p>
         <p>Thời gian: abc</p>
-        <p>Vui lòng kiểm tra lại thông tin và click vào link sau để xác nhận: <a href=${dataSend.verifyLink} target="_blank">${dataSend.verifyLink}</a></p>
+        <p>Chúc bạn thật nhiều sức khoẻ!</p>
+        <br/>
+        <p>Thông tin đơn thuốc: </p>
         `,
         attachments: [
             {
-                filename:`prescription-${dataSend.patientId}-${dataSend.patientName}-${new Date().getTime()}.png`,
+                filename: `prescription-${dataSend.patientId}-${
+                    dataSend.patientName
+                }-${new Date().getTime()}.png`,
                 content: dataSend.imgBase64.split("base64,")[1],
-                encoding: 'base64'
-            }
-        ]
+                encoding: "base64",
+            },
+        ],
     });
-}
-
+};
 
 module.exports = {
     sendConfirmEmail,
