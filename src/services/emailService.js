@@ -59,21 +59,15 @@ const sendAttachment = async (dataSend) => {
     let info = await transporter.sendMail({
         from: '"ClinicBooker" <hieu.nhan.hcmus@gmail.com>',
         to: dataSend.email,
-        subject: "Hoàn tất quá trình đặt lịch khám bệnh",
+        subject: "[ClinicBooker] Hoàn tất quá trình đặt lịch khám bệnh",
         text: "Hello ✔",
         html: `
         <h2>Cảm ơn bạn đã đặt lịch khám tại ClinicBooker!</h2>
         <p>Xin chào ${dataSend.patientName},</p>
         <p>Quá trình khám bệnh của bạn đã hoàn tất</p>
-        <br/>
-        <p>THÔNG TIN CHI TIẾT:</p>
-        <p>Người đặt: <b>${dataSend.patientName}</b></p>
-        <p>Lý do khám: <b>Nhức đầu</b></p>
-        <p>Bác sĩ: <b>${dataSend.doctorName}</b></p>
-        <p>Thời gian: <b>${dataSend.time}</b></p>
+        <p>Vui lòng kiểm tra file hoá đơn đính kèm</p>
         <p>Chúc bạn thật nhiều sức khoẻ!</p>
         <br/>
-        <p>File đơn thuốc đính kèm: </p>
         `,
         attachments: [
             {
