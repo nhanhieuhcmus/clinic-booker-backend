@@ -19,6 +19,10 @@ const customConfig = {
             rejectUnauthorized: false,
         },
     },
+    query: {
+        "raw": true,
+    },
+    timezone: "+07:00"
 };
 sequelize = new Sequelize(
     process.env.DB_NAME,
